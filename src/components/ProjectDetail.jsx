@@ -1,4 +1,3 @@
-import CollapsibleCard from './CollapsibleCard'
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
@@ -366,7 +365,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
       {/* Project Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Architects Card */}
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -412,7 +411,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
         </Card>
 
         {/* Contractors Card */}
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -466,7 +465,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
       {/* Investor & Supervisor Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Investors Card */}
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -536,7 +535,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
         </Card>
 
         {/* Supervisors Card */}
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -608,7 +607,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
 
       {/* Location Link */}
       {project.locationLink && (
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
@@ -630,7 +629,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
 
       {/* Notes */}
       {project.notes && (
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
@@ -644,7 +643,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
       )}
 
       {/* File Links */}
-      <CollapsibleCard>
+      <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
@@ -697,7 +696,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
 
       {/* Gantt Chart */}
       {project.phases && project.phases.length > 0 && (
-        <CollapsibleCard>
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
@@ -712,7 +711,7 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
       )}
 
       {/* Phases */}
-      <CollapsibleCard>
+      <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="space-y-2">

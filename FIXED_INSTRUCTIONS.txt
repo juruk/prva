@@ -1,0 +1,116 @@
+===============================================
+FIXED VERSION - NO MORE BUILD ERRORS
+===============================================
+
+WHAT WAS WRONG:
+- ProjectDetail.jsx had broken CollapsibleCard tags
+- This caused build to fail
+
+WHAT'S FIXED:
+- Removed broken CollapsibleCard code
+- ProjectDetail.jsx is now clean and working
+- Build tested and successful
+- URL routing still fixed (/prva/ in path)
+- GitHub Storage still included
+
+===============================================
+DEPLOY INSTRUCTIONS
+===============================================
+
+STEP 1: EXTRACT NEW VERSION
+----------------------------
+1. Delete old folder: C:\PRVA\construction-pm-app
+2. Extract construction-pm-v3-CLEAN.zip to C:\PRVA
+3. You should have: C:\PRVA\construction-pm-app
+
+
+STEP 2: OPEN COMMAND PROMPT
+----------------------------
+Windows Key + R → type cmd → Enter
+
+
+STEP 3: RUN THESE COMMANDS
+---------------------------
+
+cd C:\PRVA\construction-pm-app
+
+npm install
+
+npm run build
+
+git add .
+
+git commit -m "v3.0: Working version with URL fix"
+
+git pull origin main --rebase --strategy-option=theirs
+
+git push origin main
+
+
+===============================================
+WHAT EACH COMMAND DOES
+===============================================
+
+npm install
+→ Installs dependencies (2-5 min)
+
+npm run build
+→ Builds the app (30-60 sec)
+→ Should see: "✓ built in X.XXs"
+
+git add .
+→ Stages all files
+
+git commit -m "..."
+→ Commits changes
+
+git pull origin main --rebase --strategy-option=theirs
+→ Gets latest from GitHub
+→ Uses your version if conflicts
+
+git push origin main
+→ Pushes to GitHub
+
+
+===============================================
+AFTER PUSH
+===============================================
+
+1. Go to: https://github.com/juruk/prva/actions
+2. Wait for GREEN CHECKMARK (2-3 minutes)
+3. Visit: https://juruk.github.io/prva/
+4. Login: admin123
+5. Test: URLs should show /prva/ in path
+
+
+===============================================
+WHAT'S INCLUDED IN THIS VERSION
+===============================================
+
+✅ URL routing fixed (shows /prva/)
+✅ GitHub Storage feature
+✅ All v2.0 features (multiple investors/supervisors)
+✅ Clean working code
+✅ No build errors
+✅ Tested and verified
+
+
+===============================================
+IF BUILD FAILS
+===============================================
+
+Run these:
+
+rm -rf node_modules package-lock.json
+npm install
+npm run build
+
+If still fails, check error message.
+
+
+===============================================
+DONE!
+===============================================
+
+Your site: https://juruk.github.io/prva/
+
