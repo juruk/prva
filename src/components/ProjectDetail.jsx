@@ -1,3 +1,4 @@
+import CollapsibleCard from './CollapsibleCard'
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
