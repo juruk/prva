@@ -12,9 +12,7 @@ export default defineConfig({
     },
   },
   // GitHub Pages deployment configuration
-  // Update the base path to match your repository name
-  // Example: if your repo is "construction-pm-app", use base: '/construction-pm-app/'
-  // For custom domain or username.github.io, use base: '/'
-  base: './',
+  // Base path must match your repository name
+  base: '/prva/',
 })
 

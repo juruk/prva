@@ -13,6 +13,8 @@ import ContractorsList from './components/ContractorsList'
 import ContractorDetail from './components/ContractorDetail'
 import Navigation from './components/Navigation'
 import Login from './components/Login'
+import GitHubStorageConfig from './components/GitHubStorageConfig'
+import githubStorage from './services/githubStorage'
 
 function App() {
   const [projects, setProjects] = useState([])
@@ -20,6 +22,8 @@ function App() {
   const [contractors, setContractors] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userRole, setUserRole] = useState(null) // 'admin' or 'readonly'
+  const [githubSyncEnabled, setGithubSyncEnabled] = useState(false)
+  const [dataShas, setDataShas] = useState({})
 
   // Check authentication on mount
   useEffect(() => {
@@ -173,7 +177,7 @@ function App() {
   const isAdmin = userRole === 'admin'
 
   return (
-    <Router>
+    <Router basename="/prva">
       <div className="min-h-screen bg-background">
         {/* Header */}
         <header className="border-b border-border bg-card sticky top-0 z-50">
@@ -208,6 +212,8 @@ function App() {
                 </Badge>
 
                 {/* Export/Import Buttons */}
+                {/* GitHub Storage Configuration */}
+                {isAdmin && <GitHubStorageConfig />}
                 <Button 
                   variant="outline" 
                   size="sm" 
