@@ -1,0 +1,174 @@
+===============================================
+DEPLOYMENT INSTRUCTIONS - FOLLOW EXACTLY
+===============================================
+
+STEP 1: EXTRACT FILES
+----------------------
+1. Find construction-pm-v3-FINAL.zip
+2. Right-click → Extract All
+3. Extract to: C:\PRVA
+4. Click "Replace" if asked
+5. You should now have: C:\PRVA\construction-pm-app
+
+
+STEP 2: OPEN COMMAND PROMPT
+----------------------------
+1. Press Windows Key + R
+2. Type: cmd
+3. Press Enter
+
+
+STEP 3: GO TO PROJECT FOLDER
+-----------------------------
+Copy this command and press Enter:
+
+cd C:\PRVA\construction-pm-app
+
+
+STEP 4: CHECK GIT
+-----------------
+Copy this command and press Enter:
+
+git status
+
+IF YOU SEE "fatal: not a git repository":
+Run these 3 commands (copy one at a time):
+
+git init
+
+git remote add origin https://github.com/juruk/prva.git
+
+git branch -M main
+
+IF YOU SEE a list of files:
+Skip to STEP 5
+
+
+STEP 5: INSTALL DEPENDENCIES
+-----------------------------
+Copy this command and press Enter:
+
+npm install
+
+WAIT 2-5 minutes until you see:
+"found 0 vulnerabilities"
+
+
+STEP 6: BUILD
+-------------
+Copy this command and press Enter:
+
+npm run build
+
+WAIT 30-60 seconds until you see:
+"✓ built in X.XXs"
+
+
+STEP 7: ADD FILES
+-----------------
+Copy this command and press Enter:
+
+git add .
+
+
+STEP 8: COMMIT
+--------------
+Copy this command and press Enter:
+
+git commit -m "v3.0: Fix URLs and dependencies"
+
+
+STEP 9: PUSH TO GITHUB
+----------------------
+Copy this command and press Enter:
+
+git push -u origin main
+
+LOGIN when asked:
+- Enter GitHub username
+- Enter GitHub password (or token if 2FA)
+
+WAIT until you see:
+"Branch 'main' set up to track remote branch 'main'"
+
+
+STEP 10: WAIT FOR DEPLOYMENT
+-----------------------------
+1. Open browser
+2. Go to: https://github.com/juruk/prva/actions
+3. WAIT for GREEN CHECKMARK (2-3 minutes)
+4. Refresh page if needed
+
+
+STEP 11: TEST YOUR SITE
+------------------------
+1. Go to: https://juruk.github.io/prva/
+2. You should see login page
+3. Login with password: admin123
+4. Click "Projects"
+5. URL should show: https://juruk.github.io/prva/projects
+
+IF YOU SEE /prva/projects → SUCCESS!
+
+
+===============================================
+ALL COMMANDS IN ORDER (COPY THESE)
+===============================================
+
+cd C:\PRVA\construction-pm-app
+git status
+npm install
+npm run build
+git add .
+git commit -m "v3.0: Fix URLs and dependencies"
+git push -u origin main
+
+
+IF GIT NOT INITIALIZED, ADD THESE FIRST:
+
+git init
+git remote add origin https://github.com/juruk/prva.git
+git branch -M main
+
+
+===============================================
+TROUBLESHOOTING
+===============================================
+
+PROBLEM: "git is not recognized"
+SOLUTION: Install Git from https://git-scm.com/download/win
+          Restart Command Prompt
+
+PROBLEM: "npm is not recognized"
+SOLUTION: Install Node.js from https://nodejs.org
+          Restart Command Prompt
+
+PROBLEM: npm install fails
+SOLUTION: Delete node_modules folder
+          Delete package-lock.json
+          Run: npm install
+
+PROBLEM: 404 error on website
+SOLUTION: Wait 10 minutes
+          Clear browser cache
+          Try incognito mode
+
+PROBLEM: Blank white screen
+SOLUTION: Press F12 in browser
+          Check Console for errors
+          Clear cache
+
+
+===============================================
+YOUR LIVE SITE
+===============================================
+
+URL: https://juruk.github.io/prva/
+Admin Password: admin123
+Read-Only Password: readonly123
+
+
+===============================================
+DONE!
+===============================================
+

@@ -1,0 +1,49 @@
+============================================
+COPY THESE COMMANDS - RUN IN ORDER
+============================================
+
+1. Open Command Prompt (Windows Key + R, type cmd, Enter)
+
+2. Copy and run each command:
+
+cd C:\PRVA\construction-pm-app
+
+git status
+
+npm install
+
+npm run build
+
+git add .
+
+git commit -m "v3.0: Fix URLs and dependencies"
+
+git push -u origin main
+
+
+============================================
+IF GIT SAYS "fatal: not a git repository"
+RUN THESE FIRST:
+============================================
+
+git init
+
+git remote add origin https://github.com/juruk/prva.git
+
+git branch -M main
+
+
+============================================
+THEN WAIT
+============================================
+
+1. Go to: https://github.com/juruk/prva/actions
+2. Wait for GREEN CHECKMARK (2-3 minutes)
+3. Visit: https://juruk.github.io/prva/
+4. Login: admin123
+
+
+============================================
+DONE!
+============================================
+
