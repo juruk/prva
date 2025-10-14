@@ -34,8 +34,10 @@ import {
   Users as UsersIcon,
   HardHat,
   Briefcase,
-  UserCheck
+  UserCheck,
+  ChevronDown
 } from 'lucide-react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible.jsx'
 import GanttChart from './GanttChart'
 
 const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin }) => {
@@ -79,7 +81,24 @@ const ProjectDetail = ({ projects, setProjects, architects, contractors, isAdmin
     company: '',
     phone: '',
     email: ''
+  })  
+  // Collapsible state
+  const [openSections, setOpenSections] = useState({
+    architects: true,
+    contractors: true,
+    investors: true,
+    supervisors: true,
+    location: true,
+    notes: true,
+    gantt: true,
+    phases: true,
+    files: true
   })
+  
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
+  }
+
 
   if (!project) {
     return (

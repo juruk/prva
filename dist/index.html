@@ -5,10 +5,24 @@
     <link rel="icon" type="image/x-icon" href="/prva/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Construction Project Manager</title>
-    <script type="module" crossorigin src="/prva/assets/index-I_9zWZob.js"></script>
+    <!-- GitHub Pages SPA redirect -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    <script type="module" crossorigin src="/prva/assets/index-P0mM2XSE.js"></script>
     <link rel="stylesheet" crossorigin href="/prva/assets/index-CO3vo-wD.css">
   </head>
   <body>
     <div id="root"></div>
   </body>
 </html>
+
