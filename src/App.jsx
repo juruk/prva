@@ -14,6 +14,7 @@ import ContractorDetail from './components/ContractorDetail'
 import Navigation from './components/Navigation'
 import Login from './components/Login'
 import GitHubStorageConfig from './components/GitHubStorageConfig'
+import SyncStatus from './components/SyncStatus'
 import githubStorage from './services/githubStorage'
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
   const [userRole, setUserRole] = useState(null) // 'admin' or 'readonly'
   const [githubSyncEnabled, setGithubSyncEnabled] = useState(false)
   const [dataShas, setDataShas] = useState({})
+  const [syncStatus, setSyncStatus] = useState('idle') // 'idle', 'syncing', 'synced', 'error'
+  const [syncError, setSyncError] = useState(null)
+
 
   // Check authentication on mount
   useEffect(() => {
@@ -214,6 +218,7 @@ function App() {
                 {/* Export/Import Buttons */}
                 {/* GitHub Storage Configuration */}
                 {isAdmin && <GitHubStorageConfig />}
+                <SyncStatus status={syncStatus} error={syncError} enabled={githubSyncEnabled} />
                 <Button 
                   variant="outline" 
                   size="sm" 

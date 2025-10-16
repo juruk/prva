@@ -1,0 +1,177 @@
+===============================================
+DEPLOY AUTO-SYNC VERSION
+===============================================
+
+WHAT'S NEW:
+✅ Auto-load data from GitHub when page opens
+✅ Auto-save data to GitHub when changes made
+✅ Sync status indicator in header
+✅ All users see same data
+✅ Automatic backup to GitHub
+
+===============================================
+DEPLOY COMMANDS
+===============================================
+
+cd C:\PRVA\construction-pm-app
+
+git init
+
+git remote add origin https://github.com/juruk/prva.git
+
+git branch -M main
+
+npm install
+
+npm run build
+
+git add .
+
+git commit -m "v3.1: Add GitHub auto-sync"
+
+git pull origin main --rebase --strategy-option=theirs
+
+git push origin main
+
+
+===============================================
+AFTER DEPLOYMENT (WAIT 2-3 MIN)
+===============================================
+
+1. Go to: https://github.com/juruk/prva/actions
+2. Wait for GREEN CHECKMARK
+3. Visit: https://juruk.github.io/prva/
+
+
+===============================================
+SETUP GITHUB SYNC (ONE-TIME, ADMIN ONLY)
+===============================================
+
+STEP 1: Generate GitHub Token
+------------------------------
+1. Go to: https://github.com/settings/tokens/new
+2. Note: "Construction PM App"
+3. Expiration: No expiration
+4. Scopes: Check ☑️ "repo"
+5. Generate token
+6. COPY THE TOKEN (save it somewhere)
+
+
+STEP 2: Configure in App
+-------------------------
+1. Open: https://juruk.github.io/prva/
+2. Login as admin (password: admin123)
+3. Click "Setup GitHub Storage" button
+4. Enter:
+   - Owner: juruk
+   - Repository: prva
+   - Token: (paste your token)
+5. Click "Test Connection"
+6. Click "Save Configuration"
+7. Done!
+
+
+STEP 3: Verify
+--------------
+1. Look for "Synced ✓" badge in header
+2. Add a test project
+3. Wait for "Syncing..." then "Synced ✓"
+4. Check: https://github.com/juruk/prva/tree/main/data
+5. You should see projects.json file
+
+
+===============================================
+HOW IT WORKS
+===============================================
+
+FOR ALL USERS:
+- Open app → Data loads from GitHub automatically
+- See same projects as everyone else
+- No setup needed (just login)
+
+FOR ADMIN:
+- Make changes → Saves to GitHub automatically
+- See "Syncing..." → "Synced ✓"
+- All users see changes when they refresh
+
+
+===============================================
+SYNC STATUS BADGES
+===============================================
+
+"Local Only" → GitHub not configured yet
+"Ready" → GitHub configured, idle
+"Syncing..." → Currently saving
+"Synced ✓" → All data up to date
+"Sync Error" → Problem (check internet/token)
+
+
+===============================================
+SECURITY
+===============================================
+
+MAKE REPOSITORY PRIVATE (Recommended):
+1. Go to: https://github.com/juruk/prva/settings
+2. Scroll to "Danger Zone"
+3. Click "Change visibility"
+4. Select "Make private"
+5. Confirm
+
+This keeps your project data private.
+
+
+===============================================
+TESTING
+===============================================
+
+TEST 1: Data Sync
+-----------------
+1. Login as admin
+2. Add a test project
+3. Wait for "Synced ✓"
+4. Check GitHub: https://github.com/juruk/prva/tree/main/data
+5. See your project in JSON file
+
+
+TEST 2: Multi-User
+------------------
+1. Open in different browser
+2. Login (any user)
+3. See same projects
+4. Admin makes change
+5. Other user refreshes
+6. Sees the change
+
+
+===============================================
+TROUBLESHOOTING
+===============================================
+
+"Sync Error" badge:
+→ Check internet connection
+→ Check GitHub token is valid
+→ Reconfigure GitHub storage
+
+"Connection failed":
+→ Check Owner=juruk, Repo=prva
+→ Check token has "repo" scope
+→ Generate new token
+
+Users see different data:
+→ Have them refresh page (F5)
+→ Data will reload from GitHub
+
+
+===============================================
+DONE!
+===============================================
+
+After setup:
+✅ All users see same data
+✅ Data syncs automatically
+✅ Automatic backup to GitHub
+✅ Version history available
+✅ Works offline (uses localStorage)
+
+See GITHUB_AUTOSYNC_SETUP.md for complete guide.
+
