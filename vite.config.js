@@ -1,22 +1,20 @@
+// vite.config.js — clean single default export for GH Pages
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import path from 'path'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  // важно за GitHub Pages под-патека: https://<user>.github.io/prva/
+  base: '/prva/',
+
+  plugins: [react()],
+
+  // за да работат import-и како "@/components/..."
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': '/src',
     },
   },
-  // GitHub Pages deployment configuration
-  // Base path must match your repository name
-  base: '/prva/',
-})
 
-// vite.config.js
-export default {
-  base: '/prva/',
-}
+  // опционално: можеш да додадеш и други Vite опции тука (build, server, итн.)
+})
