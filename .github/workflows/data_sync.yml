@@ -1,0 +1,62 @@
+name: Data Sync from Issue
+
+on:
+  issues:
+    types: [opened, edited, reopened, labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    if: contains(github.event.issue.labels.*.name, 'data-update')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure data folder
+        run: mkdir -p data
+
+      - name: Extract JSON from issue body
+        id: extract
+        shell: bash
+        run: |
+          BODY=$(cat <<'EOF'
+${{ github.event.issue.body }}
+EOF
+)
+          # Очекуваме JSON во блок ```json ... ```
+          JSON=$(echo "$BODY" | awk '/```json/{flag=1;next}/```/{flag=0}flag')
+          if [ -z "$JSON" ]; then
+            echo "No JSON block found in issue body."
+            exit 1
+          fi
+          echo "$JSON" | jq . > data/store.json
+
+      - name: Commit & push
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/store.json
+            git commit -m "chore(data): sync from issue #${{ github.event.issue.number }}"
+            git push
+          fi
+
+      - name: Comment result
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ✅ Податоците се синхронизирани во `data/store.json`.
+            Commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+
+      - name: Close issue
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
