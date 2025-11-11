@@ -16,3 +16,7 @@ export default defineConfig({
   base: '/prva/',
 })
 
+// vite.config.js
+export default {
+  base: '/prva/',
+}
