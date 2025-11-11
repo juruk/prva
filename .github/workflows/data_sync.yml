@@ -1,62 +1,59 @@
-name: Data Sync from Issue
+name: Data Sync (issue JSON)
 
 on:
+  # Рачно стартување за тест
+  workflow_dispatch:
+  # Автоматски кога ќе отвориш/уредиш issue
   issues:
-    types: [opened, edited, reopened, labeled]
-
-permissions:
-  contents: write
-  issues: write
+    types: [opened, edited]
 
 jobs:
-  sync:
-    if: contains(github.event.issue.labels.*.name, 'data-update')
+  parse:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Show raw issue body (debug)
+        run: |
+          echo '--- RAW (JSON-escaped) ---'
+          echo '${{ toJson(github.event.issue.body) }}' | head -c 2000
+          echo
+          echo '--- /RAW ---'
 
-      - name: Ensure data folder
-        run: mkdir -p data
-
-      - name: Extract JSON from issue body
+      - name: Extract fenced ```json block to payload.json
         id: extract
         shell: bash
         run: |
-          BODY=$(cat <<'EOF'
-${{ github.event.issue.body }}
-EOF
-)
-          # Очекуваме JSON во блок ```json ... ```
-          JSON=$(echo "$BODY" | awk '/```json/{flag=1;next}/```/{flag=0}flag')
-          if [ -z "$JSON" ]; then
-            echo "No JSON block found in issue body."
-            exit 1
-          fi
-          echo "$JSON" | jq . > data/store.json
+          set -euo pipefail
 
-      - name: Commit & push
+          # Претвори го issue body-то од JSON string во чист текст
+          BODY_JSON='${{ toJson(github.event.issue.body) }}'
+          BODY=$(printf "%s" "$BODY_JSON" | jq -r .)
+
+          # Извлечи го содржајот меѓу ```json ... ```
+          JSON=$(printf "%s\n" "$BODY" \
+            | awk '/```json/{flag=1;next}/```/{if(flag){flag=0;exit}}flag')
+
+          # Сними во фајл
+          printf "%s\n" "$JSON" > payload.json
+
+          # Емитувај како output (за следни чекори)
+          {
+            echo "json<<JSON_EOF"
+            printf "%s\n" "$JSON"
+            echo "JSON_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Extracted JSON to payload.json"
+
+      - name: Validate JSON (optional)
         shell: bash
         run: |
-          if git diff --quiet; then
-            echo "No changes to commit."
+          if [ -s payload.json ]; then
+            echo "payload.json content:"
+            cat payload.json
+            echo
+            echo "jq validation:"
+            jq . payload.json
           else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/store.json
-            git commit -m "chore(data): sync from issue #${{ github.event.issue.number }}"
-            git push
+            echo "No JSON block found between ```json ... ```"
           fi
-
-      - name: Comment result
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          body: |
-            ✅ Податоците се синхронизирани во `data/store.json`.
-            Commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-
-      - name: Close issue
-        uses: peter-evans/close-issue@v2
-        with:
-          issue-number: ${{ github.event.issue.number }}
