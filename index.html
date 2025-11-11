@@ -22,6 +22,38 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+	
+	<!-- Settings (PAT) -->
+<button id="settingsBtn" style="position:fixed;right:12px;bottom:12px;z-index:9999;">Settings</button>
+<div id="tokenModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9998;align-items:center;justify-content:center;">
+  <div style="background:#fff;max-width:520px;width:92%;padding:16px;border-radius:12px;">
+    <h3 style="margin:0 0 8px 0;">GitHub Token (Fine-grained PAT)</h3>
+    <ol style="margin-top:0;padding-left:18px;">
+      <li>Repository access: <b>Only select repositories → juruk/prva</b></li>
+      <li>Permissions: <b>Contents: Read &amp; Write</b>, <b>Metadata: Read</b></li>
+    </ol>
+    <input id="tokenInput" type="password" placeholder="github_pat_..." style="width:100%;padding:8px;">
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
+      <button id="tokenSaveBtn">Save</button>
+      <button id="tokenClearBtn">Clear</button>
+      <button id="tokenCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+  const $ = (s)=>document.querySelector(s);
+  $('#settingsBtn').onclick = ()=> $('#tokenModal').style.display='flex';
+  $('#tokenCloseBtn')?.addEventListener('click', ()=> $('#tokenModal').style.display='none');
+  $('#tokenSaveBtn')?.addEventListener('click', ()=>{
+    localStorage.setItem('gh_pat', $('#tokenInput').value.trim());
+    alert('Saved locally (не се комитира)');
+  });
+  $('#tokenClearBtn')?.addEventListener('click', ()=>{
+    localStorage.removeItem('gh_pat');
+    alert('Cleared');
+  });
+</script>
+
   </body>
 </html>
 
