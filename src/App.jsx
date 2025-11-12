@@ -291,7 +291,7 @@ function App() {
       <div className="min-h-screen bg-background">
         {/* Header */}
         <header className="border-b border-border bg-card sticky top-0 z-50">
-          <div className="container mx-auto px-4 py-4">
+          <div className="mx-auto w-full max-w-6xl px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="bg-primary text-primary-foreground p-2 rounded-lg">
@@ -376,7 +376,7 @@ function App() {
         <Navigation />
 
         {/* Main Content */}
-        <main className="container mx-auto px-4 py-6">
+        <main className="mx-auto w-full max-w-6xl px-4 py-6">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route
@@ -462,7 +462,7 @@ function App() {
 
         {/* Footer */}
         <footer className="border-t border-border mt-12 py-6 bg-card">
-          <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          <div className="mx-auto w-full max-w-6xl px-4 text-center text-sm text-muted-foreground">
             <p>
               Construction Project Manager © 2025 | Data cached locally
               {githubSyncEnabled ? ' and synced to GitHub' : ' (GitHub sync disabled)'}
