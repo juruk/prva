@@ -40,8 +40,8 @@ export default function ProjectsList({
         )}
       </div>
 
-      {/* 2-колонски grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* 2 по ред од мал екран па нагоре */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {(projects ?? []).map((p, i) => (
           <div key={i} className="rounded-2xl border border-border bg-card/50 p-5 shadow-sm">
             <div className="flex items-start justify-between gap-3">
@@ -63,7 +63,6 @@ export default function ProjectsList({
               </Link>
             </div>
 
-            {/* По желба: кратки информации */}
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-md border border-border/70 bg-background/40 p-2">
                 <p className="text-muted-foreground">Архитекти</p>

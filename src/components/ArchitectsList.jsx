@@ -39,8 +39,8 @@ export default function ArchitectsList({
         )}
       </div>
 
-      {/* 2-колонски grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* 2 по ред од мал екран па нагоре */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {(architects ?? []).map((a, i) => (
           <div key={i} className="rounded-2xl border border-border bg-card/50 p-5 shadow-sm">
             <div className="flex items-start justify-between gap-3">
