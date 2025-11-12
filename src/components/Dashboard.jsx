@@ -41,7 +41,7 @@ export default function Dashboard({ projects, architects, contractors }) {
       <h2 className="text-xl font-semibold text-foreground">Преглед</h2>
 
       {/* СЕКЦИЈА 1: статистика (2 по ред од мал екран па нагоре) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6">
         <StatCard title="Проекти"    value={projects?.length ?? 0}   icon={ClipboardList} />
         <StatCard title="Архитекти"  value={architects?.length ?? 0} icon={Users} />
         <StatCard title="Изведувачи" value={contractors?.length ?? 0} icon={Wrench} />
@@ -58,7 +58,7 @@ export default function Dashboard({ projects, architects, contractors }) {
       {/* СЕКЦИЈА 2: брзи линкови (нов сегмент) */}
       <div className="space-y-4">
         <h3 className="text-base font-semibold text-foreground">Брзи линкови</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <QuickLink to="/projects"     label="Сите проекти" />
           <QuickLink to="/architects"   label="Сите архитекти" />
           <QuickLink to="/contractors"  label="Сите изведувачи" />
@@ -74,7 +74,7 @@ export default function Dashboard({ projects, architects, contractors }) {
             Нема неодамнешни записи.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {recent.map((p, i) => (
               <div key={i} className="rounded-2xl border border-border bg-card/50 p-5 shadow-sm">
                 <div className="flex items-center justify-between gap-3">
