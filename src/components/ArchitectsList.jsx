@@ -1,205 +1,93 @@
-import { useState } from 'react'
+// src/components/ArchitectsList.jsx
 import { Link } from 'react-router-dom'
-import { Button } from '@/components/ui/button.jsx'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Badge } from '@/components/ui/badge.jsx'
-import { Input } from '@/components/ui/input.jsx'
-import { Label } from '@/components/ui/label.jsx'
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogFooter 
-} from '@/components/ui/dialog.jsx'
-import { Plus, Mail, Phone, Building2, ArrowRight } from 'lucide-react'
+import { Plus, User, Trash2 } from 'lucide-react'
 
-const ArchitectsList = ({ architects, setArchitects, projects, isAdmin }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    phone: '',
-    email: ''
-  })
-
-  const handleAddArchitect = () => {
-    setFormData({
-      name: '',
-      company: '',
-      phone: '',
-      email: ''
-    })
-    setIsDialogOpen(true)
+export default function ArchitectsList({
+  architects,
+  setArchitects,
+  projects,
+  isAdmin
+}) {
+  const handleAdd = () => {
+    if (!isAdmin) return
+    const a = {
+      name: `Архитект ${architects.length + 1}`,
+      createdAt: new Date().toISOString()
+    }
+    setArchitects(prev => [...prev, a])
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setArchitects([...architects, { ...formData, id: Date.now().toString() }])
-    setIsDialogOpen(false)
-  }
-
-  const getArchitectProjects = (architectId) => {
-    return projects.filter(p => p.architects && p.architects.includes(architectId))
-  }
-
-  const getActiveProjects = (architectId) => {
-    return getArchitectProjects(architectId).filter(p => p.status === 'started')
-  }
-
-  const getCompletedProjects = (architectId) => {
-    return getArchitectProjects(architectId).filter(p => p.status === 'finished')
+  const handleRemove = (idx) => {
+    if (!isAdmin) return
+    setArchitects(prev => prev.filter((_, i) => i !== idx))
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <section className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold">Architects</h2>
-          <p className="text-muted-foreground">Manage your architect network</p>
-        </div>
-        {isAdmin && <Button onClick={handleAddArchitect} className="gap-2">
-          <Plus className="w-4 h-4" />
-          Add Architect
-        </Button>}
+        <h2 className="text-xl font-semibold text-foreground">
+          Архитекти <span className="text-muted-foreground">({architects?.length ?? 0})</span>
+        </h2>
+        {isAdmin && (
+          <button
+            onClick={handleAdd}
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm hover:bg-accent"
+          >
+            <Plus className="h-4 w-4" />
+            Додади архитект
+          </button>
+        )}
       </div>
 
-      {/* Architects Grid */}
-      {architects.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">No architects found. Add your first architect to get started.</p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {architects.map((architect) => {
-            const activeProjects = getActiveProjects(architect.id)
-            const completedProjects = getCompletedProjects(architect.id)
+      {/* 2-колонски grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {(architects ?? []).map((a, i) => (
+          <div key={i} className="rounded-2xl border border-border bg-card/50 p-5 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl border border-border p-2">
+                  <User className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-foreground">
+                    {a?.name || `Архитект #${i + 1}`}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {a?.createdAt ? new Date(a.createdAt).toLocaleDateString() : '—'}
+                  </p>
+                </div>
+              </div>
 
-            return (
-              <Link key={architect.id} to={`/architects/${architect.id}`}>
-                <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer h-full">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-xl mb-1">{architect.name}</CardTitle>
-                        {architect.company && (
-                          <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                            <Building2 className="w-3 h-3" />
-                            {architect.company}
-                          </div>
-                        )}
-                        <CardDescription className="space-y-1">
-                          {architect.email && (
-                            <div className="flex items-center gap-2 text-sm">
-                              <Mail className="w-3 h-3" />
-                              {architect.email}
-                            </div>
-                          )}
-                          {architect.phone && (
-                            <div className="flex items-center gap-2 text-sm">
-                              <Phone className="w-3 h-3" />
-                              {architect.phone}
-                            </div>
-                          )}
-                        </CardDescription>
-                      </div>
-                      <ArrowRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="p-3 border rounded-lg bg-blue-50 dark:bg-blue-950">
-                        <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                          {activeProjects.length}
-                        </p>
-                        <p className="text-xs text-muted-foreground">Active</p>
-                      </div>
-                      <div className="p-3 border rounded-lg bg-green-50 dark:bg-green-950">
-                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                          {completedProjects.length}
-                        </p>
-                        <p className="text-xs text-muted-foreground">Completed</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <Link
+                to={`/architects/${i}`}
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm hover:bg-accent"
+                title="Отвори"
+              >
+                Детали
               </Link>
-            )
-          })}
-        </div>
-      )}
-
-      {/* Add Architect Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Add New Architect</DialogTitle>
-            <DialogDescription>
-              Add a new architect to your network
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name *</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                placeholder="John Smith"
-              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="company">Company</Label>
-              <Input
-                id="company"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                placeholder="Smith Architecture Studio"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="john.smith@example.com"
-              />
-            </div>
+            {isAdmin && (
+              <div className="mt-4 flex items-center justify-end">
+                <button
+                  onClick={() => handleRemove(i)}
+                  className="inline-flex items-center gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive hover:bg-destructive/20"
+                  title="Избриши"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Избриши
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="+1 (555) 123-4567"
-              />
-            </div>
-
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit">
-                Add
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+        {architects?.length === 0 && (
+          <div className="col-span-full rounded-2xl border border-border bg-card/50 p-8 text-center text-sm text-muted-foreground">
+            Нема архитекти. {isAdmin ? 'Кликни „Додади архитект“ за да внесеш.' : ''}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }
-
-export default ArchitectsList
-
